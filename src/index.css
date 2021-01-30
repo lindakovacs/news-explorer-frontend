@@ -1,2 +1,52 @@
-@import url('./vendor/normalize.css');
-@import url('./vendor/fonts/fonts.css');
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+@import url(./components/App/App.css);
+@import url(./components/Header/Header.css);
+@import url(./components/Footer/Footer.css);
+@import url(./components/About/About.css);
+
+#root {
+  color: #ffffff;
+  /* background-color: #000000;
+  color: #ffffff; */
+  font-family: 'Roboto', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  /* max-width: 1200px; */
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  align-self: center;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+@media screen and (min-width: 1281px) {
+  .root {
+    align-items: center;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 1279px) {
+  .root {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .root {
+    margin: 0 19px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .root {
+    margin: 0 20px;
+  }
+}

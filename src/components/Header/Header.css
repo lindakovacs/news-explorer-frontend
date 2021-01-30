@@ -1,0 +1,123 @@
+.header {
+    /* max-width: 882px; */
+    /* box-sizing: border-box; */
+    /* width: 100%; */
+    /* margin: 45px auto 40px; */
+    /* margin: 45px auto 0;
+    border-bottom: 1px solid #545454;
+    opacity: .7;
+    display: flex;
+    position: relative;
+    align-items: center; */
+    /* justify-content: space-between; */
+    /* background-color: rgba(196, 196, 196, 0.01);
+    box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.2); */
+    border-bottom: 1px solid #545454;
+    display: flex;
+    justify-content: space-around;
+    max-width: 100%;
+    padding: 0;
+}
+
+.header__logo {
+  /* margin: 0 0 41px; */
+  /* background-image: url(../../../images/logo.svg);
+  background-size: cover; 
+  width: 126px;
+  height: 24px; */
+  font-family: "Roboto Slab", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.header__link {
+  padding-left: 0;
+  display: flex;
+  /* align-items: center; */
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-decoration: none;
+  color: #a9a9a9;
+  margin: 0 0 0 24px;
+  height: min-content;
+  white-space: nowrap;
+}
+
+/* .header__email {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0 0 0 auto;
+    height: min-content;
+    color: #ffffff;
+} */
+
+.header__nav{
+    display: flex;
+    justify-content: space-between;
+}
+.header__nav-link{
+text-decoration: none;
+font-family: "Roboto", Arial, Helvetica, sans-serif;
+font-weight: 500;
+font-size: 18px;
+line-height: 24px;
+color: #B6BCBF;
+margin: 0 auto;
+padding: 26px;
+transition: opacity .5s ease-in-out;
+}
+
+@media screen and (max-width: 375px) {
+    .header {
+      margin: 28px 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .header__logo {
+      padding: 48px 0;
+    }
+}
+@media screen and (max-width: 375px) {
+    .header__logo {
+      width: 126px;
+      height: 24px;
+      margin-left: 27px;
+      margin-bottom: 32px;
+      padding: 0;
+    }
+}
+.header__button{
+    background-color: rgba(196, 196, 196, 0.01);
+    color: #fff;
+    border-radius: 100px;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    border: 1px solid #FFFFFF;
+    width: 176px;
+    height: 48px;
+    margin: 13px 0;
+}
+
+.header__button_saved{
+    color: black;
+}
+.header__image{
+    width: 17.4px;
+    height: 16px;
+    margin-left: 19px;
+}
+.header__image_hidden{
+    display: none;
+}
