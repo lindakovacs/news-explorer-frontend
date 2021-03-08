@@ -1,23 +1,48 @@
 .about {
-  min-height: 624px;
+  /* min-height: 624px; */
   box-sizing: border-box;
   background-color: #ffffff;
-  padding: 80px 104px;
-  margin: auto;
-  display: flex;
-  width: 80%;
+  /* padding: 80px 104px;
+  margin: auto; */
+  /* display: flex; */
+  /* width: 100vw; */
+  width: 100%;
+  margin: 80px 0;
 }
-
+.about__container {
+  width: calc(100% - 104px * 2);
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .about__image {
-  width: 464px;
-  height: 464px;
-  border-radius: 1000px;
+  /* width: 464px;
+  height: 464px; */
+  /* max-width: 464px; */
+  /* width: 35%; */
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
   border: solid #66ccff 1px;
-  margin: 0 56px 80px 0;
+  margin: 0 56px 0 0;
+  padding: 0;
+  /* display: flex;
+  flex-direction: column; */
+  /* align-items: center;
+  justify-content: center; */
+  /* background-image: url('../../images/Linda-Kovacs.jpg'); 
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center; */
 }
 
 .about__text-container {
-  margin: 61px 0 0 0;
+  /* margin: 61px 0 0 0; */
+  width: 67%;
+  display: flex;
+  flex-direction: column;
 }
 
 .about__title {
@@ -26,7 +51,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 46px;
-  
   text-align: left;
   color: #1A1B22;
   margin: 0 0 24px 0;
@@ -38,13 +62,12 @@
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  
   text-align: left;
   color: #1A1B22;
   margin: 0 0 24px 0;
 }
 
-@media screen and (min-width: 1600px) {
+/* @media screen and (min-width: 1600px) {
   .about {
     width: 1440px;
   }
@@ -57,8 +80,8 @@
   }
   
   .about__image {
-    width: 232px;
-    height: 232px;
+    /* width: 232px;
+    height: 232px; * /
     margin: 0 32px 61px 0;
   }
   
@@ -87,8 +110,8 @@
   }
   
   .about__image {
-    width: 272px;
-    height: 272px;
+    /* width: 272px;
+    height: 272px; * /
     margin: 0 0 24px 0;
   }
   
@@ -104,5 +127,58 @@
   
   .about__text {
     margin: 0 0 16px 0;
+  }
+} */
+
+@media screen and (max-width: 1200px) {
+  .about {
+    margin-top: 40px;
+  }
+  .about__title {
+    margin: 0;
+    font: 400 30px/40px 'Roboto';
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .about__container {
+    width: calc(100% - 40px * 2);
+  }
+  .about__image {
+    margin: 0 32px 0 auto;
+  }
+  .about__text-container {
+    width: 67%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 774px) {
+  .about__container {
+    width: calc(100% - 16px * 2);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about {
+    margin: 32px 0 0 0;
+  }
+  .about__container {
+    flex-direction: column;
+  }
+  .about__image {
+    /* width: 272px;
+    height: 272px; */
+    width: 40%;
+    height: 40%;
+    margin: 0 auto;
+  }
+  .about__text-container {
+    margin: 0 auto 0 0;
+    width: 100%;
+  }
+  .about__title {
+    font: 400 30px/40px 'Roboto';
+    margin: 24px 0 0;
   }
 }

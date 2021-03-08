@@ -1,64 +1,65 @@
-import React from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import './NewsCard.css'
+import React, { useState } from 'react';
 
-function NewsCard(props) {
-  const currentUser = React.useContext(CurrentUserContext);
-  // Checking if you are the owner of the current card
-  const isOwn = currentUser && props.card.owner === currentUser._id;
+const NewsCard = (props) => {
+  const [isSaved, seIsSaved] = useState(false);
 
-  // Creating a variable which you'll then set in `className` for the delete button
-  const cardDeleteButtonClassName = `card__delete-button ${
-    !isOwn && 'card__delete-button_hidden'
-  }`;
+  function toggleDeleteSave() {
+    if (props.isSavedNews && props.isLoggedIn) {
+      return (
+        <button className='news-card__delete-button'>
+          <span className='news-card__save-button-label'>
+            <p>Remove from saved</p>
+          </span>
+        </button>
+      );
+    } else if (!props.isSavedNews && props.isLoggedIn) {
+      return (
+        <button
+          className={`news-card__save-button
+          ${isSaved ? 'news-card__save-button_active' : ''}`}
+          onClick={() => seIsSaved(!isSaved)}
+        ></button>
+      );
+    } else {
+      return (
+        <button className='news-card__save-button'>
+          <span className='news-card__save-button-label'>
+            <p>Sign in to save articles</p>
+          </span>
+        </button>
+      );
+    }
+  }
 
-  // Check if the card was liked by the current user
-  const isLiked = currentUser && props.card.likes.includes(currentUser._id);
-
-  // Create a variable which you then set in `className` for the like button
-  const cardLikeButtonClassName = `card__like-button ${
-    isLiked && 'card__like-button_active'
-  }`;
-
-  const likesNumber = props.card.likes.length;
+  function keywords() {
+    if (props.isSavedNews) {
+      return (
+        <div className='news-card__keyword'>
+          <p>
+            {props.card.keyword[0].toUpperCase() + props.card.keyword.slice(1)}
+          </p>
+        </div>
+      );
+    }
+  }
 
   return (
-    <>
-      <li key={props.card.id} className='card'>
-        <div className='card__container'>
-          <button
-            type='button'
-            aria-label='Delete button'
-            className={cardDeleteButtonClassName}
-            onClick={() => {
-              props.onCardDelete(props.card);
-            }}
-          ></button>
-          <div
-            className='card__image'
-            style={{ backgroundImage: `url(${props.card.link})` }}
-            onClick={() => {
-              props.onCardClick(props.card);
-            }}
-          ></div>
-          <div className='card__text'>
-            <h2 className='card__title'>{props.card.name}</h2>
-            <div className='card__like-container'>
-              <button
-                type='button'
-                aria-label='Like button'
-                className={cardLikeButtonClassName}
-                onClick={() => {
-                  props.onCardLike(props.card);
-                }}
-              ></button>
-              <p className='card__like-counter'>{likesNumber}</p>
-            </div>
-          </div>
-        </div>
-      </li>
-    </>
+    <li className='news-card'>
+      {toggleDeleteSave()}
+      {keywords()}
+      <img
+        className='news-card__image'
+        src={props.card.image}
+        alt={props.card.title}
+      />
+      <div className='news-card__info-container'>
+        <p className='news-card__date'>{props.card.date}</p>
+        <h3 className='news-card__title'>{props.card.title}</h3>
+        <p className='card__text'>{props.card.text}</p>
+        <cite className='news-card__source'>{props.card.source}</cite>
+      </div>
+    </li>
   );
-}
+};
 
 export default NewsCard;

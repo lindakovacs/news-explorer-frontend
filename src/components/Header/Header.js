@@ -1,56 +1,93 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-// import logo from './../images/logo.svg';
-import logout from '../../images/logout.svg';
+import React, { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Navigation from '../Navigation/Navigation';
 
-function Header(props) {
+const Header = (props) => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const currentUser = useContext(CurrentUserContext);
+
+  function togglePopup() {
+    props.togglePopup(true);
+    props.toggleFormPopup(true);
+    props.toggleIsRegisterPopup(false);
+    setIsNavOpen(false);
+  }
+
+  function handleSignout() {
+    props.toggleLoggedIn(false);
+    setIsNavOpen(false);
+  }
+
+  function toggleNavStatus() {
+    if (props.isFormPopupOpen) {
+      setIsNavOpen(false);
+      props.togglePopup(false);
+      props.toggleFormPopup(false);
+    } else {
+      setIsNavOpen(!isNavOpen);
+    }
+  }
+
+  function navigationLink(activeClass) {
+    if (props.isSavedNews && !isNavOpen) {
+      return activeClass;
+    } else if (props.isSavedNews && isNavOpen) {
+      return '';
+    } else {
+      return '';
+    }
+  }
   return (
-    <header className='header'>
-      <p>
-        <a href='/' className='header__logo'>
+    <header className={`header ${isNavOpen ? 'header_nav-active' : ''}`}>
+      <div className='header__size'>
+        <p className={`header__logo ${navigationLink('header__logo_dark')} `}>
           NewsExplorer
-        </a>
-      </p>
-      <div className='header__nav'>
-        <Link
-          className='header__nav-link'
-          activeClassName='header__nav-link_selected'
-          to='/'
-        >
-          Home
-        </Link>
-        <Link
-          className={`header__nav-link ${
-            props.loggedIn ? '' : 'header__nav-link_hidden'
-          }`}
-          to='/saved-news'
-        >
-          Saved articles
-        </Link>
-        {/* <button className='button header__button' onClick={headerButtonClick}>
-          {props.loggedIn ? `${currentUser.name}` : 'Sign in'} */}
-          <img
-            className={
-              props.loggedIn
-                ? `header__image`
-                : 'header__image header__image_hidden'
-            }
-            src={logout}
-            alt='logout'
-          />
-        {/* </button> */}
-      </div>
-      {/* <img className='header__logo' src={logo} alt='logo' /> */}
-      {/* <p className='header__email'>{props.loggedIn ? props.userEmail : ''}</p> */}
+        </p>
 
-      {/* <Link
-        to={props.link.to}
-        className='header__link'
-        onClick={props.onLogout ? props.onLogout : null}
-      >
-        {props.link.description}
-      </Link> */}
+        <button
+          onClick={toggleNavStatus}
+          className={`header__icon ${isNavOpen ? 'header__icon_active' : ''}
+          ${
+            props.isFormPopupOpen || props.isPopupOpen
+              ? 'header__icon_active'
+              : ''
+          }
+          ${navigationLink('header__icon_dark')}`}
+        ></button>
+        <div
+          className={`header__mobile-nav ${
+            isNavOpen ? 'header__mobile-nav_visible' : ''
+          }`}
+        >
+          <Navigation
+            isLoggedIn={props.isLoggedIn}
+            isSavedNews={props.isSavedNews}
+            isNavOpen={isNavOpen}
+            navigationLink={navigationLink}
+          />
+
+          {props.isLoggedIn ? (
+            <button
+              onClick={handleSignout}
+              className={`header__logout
+                ${navigationLink('header__logout_dark')}`}
+            >
+              {`${isNavOpen ? 'Sign out' : (currentUser.name = 'Linda')}`}
+            </button>
+          ) : (
+            <button
+              onClick={togglePopup}
+              className={`header__signin
+                ${navigationLink('header__signin_dark')}`}
+            >
+              Sign in
+            </button>
+          )}
+        </div>
+      </div>
     </header>
   );
-}
+};
+
 export default Header;
