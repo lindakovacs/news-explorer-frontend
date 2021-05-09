@@ -55,7 +55,7 @@ const NewsCard = (props) => {
       <div className='news-card__info-container'>
         <p className='news-card__date'>{props.card.date}</p>
         <h3 className='news-card__title'>{props.card.title}</h3>
-        <p className='card__text'>{props.card.text}</p>
+        <p className='news-card__text'>{props.card.text}</p>
         <cite className='news-card__source'>{props.card.source}</cite>
       </div>
     </li>
