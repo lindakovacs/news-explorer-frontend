@@ -84,7 +84,7 @@ const PopupWithForm = (props) => {
   }
 
   function handleRegisterPopup() {
-    props.toggleIsRegisterPopup(!props.isRegistered);
+    props.toggleIsRegisterPopup(!props.isRegisterPopup);
   }
 
   function handleSignin() {
@@ -93,7 +93,7 @@ const PopupWithForm = (props) => {
   }
 
   function handleRegister() {
-    if (props.isRegistered) {
+    if (props.isRegisterPopup) {
       return (
         <>
           <h2 className='popup__title'>Sign up</h2>
@@ -157,7 +157,7 @@ const PopupWithForm = (props) => {
               className={`popup__submit
               ${!errors ? 'popup__submit_active' : ''}`}
             >
-              {props.isRegistered ? 'Sign up' : 'Sign in'}
+              {props.isRegisterPopup ? 'Sign up' : 'Sign in'}
             </button>
           </form>
 
@@ -220,7 +220,7 @@ const PopupWithForm = (props) => {
               className={`popup__submit
               ${!errors ? 'popup__submit_active' : ''}`}
             >
-              {props.isRegistered ? 'Sign up' : 'Sign in'}
+              {props.isRegisterPopup ? 'Sign up' : 'Sign in'}
             </button>
           </form>
 
