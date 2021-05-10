@@ -3,7 +3,7 @@ class Auth {
     this.options = options;
   }
 
-  register(email, password) {
+  register(email, password, name) {
     return (
       fetch(`${this.options.baseUrl}/signup`, {
         method: 'POST',
@@ -11,7 +11,7 @@ class Auth {
           Acccept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, name }),
       })
         //  .then((res) => {
         //    return res.json();
