@@ -8,9 +8,9 @@ import github from '../../images/github.svg';
 function Footer() {
   return (
     <footer className='footer'>
-      <div className='footer__container'>
+      {/* <div className='footer__container'> */}
         <p className='footer__copyright'>
-          © {new Date().getFullYear()} Linda Kovacs | Powered by New API
+          © {new Date().getFullYear()} Linda Kovacs | New API
         </p>
         <div className='footer__content-container'>
           <ul className='footer__content footer__links'>
@@ -68,7 +68,7 @@ function Footer() {
           </li> */}
           </ul>
         </div>
-      </div>
+      {/* </div> */}
     </footer>
   );
 }
