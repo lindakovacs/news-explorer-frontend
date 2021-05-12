@@ -1,0 +1,106 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 430px;
+  color: #2F71E5;
+  /* background-color: #000000; */
+  /* justify-content: center; */
+  /* padding: 50px 0; */
+}
+
+.auth__container {
+  /* max-width: 430px; */
+  /* margin-top: 34px;   */
+  /* margin-bottom: 28px; */
+  /* margin: 0; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth__link {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  /* text-align: left; */
+  color: #2F71E5;
+  text-decoration: none;
+  margin-top: 16px;
+}
+
+.auth__nav {
+  font-size: 14px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+}
+
+.auth__title {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  /* text-align: left; */
+  color: #000000;
+  /* margin: 0;
+  padding-bottom: 24px; */
+  /* margin:34px 36px 22px; */
+  display: flex;  
+}
+
+.form__input-dark {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 0;
+    max-width: 358px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 30px;
+    margin-bottom: 13px;
+}
+
+.form__submit-button_dark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2F71E5;;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    border-radius: 100px;
+    width: 360px;
+    height: 64px;
+    border-radius: 100px;  
+    margin: 39px auto 0;
+    /* margin: 8px 0 0 0; 
+    border-radius: 2px;
+    border: 0;
+    margin-top: 216px; */
+}
+
+.form__submit-button_dark:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+    .form__submit-button_dark {
+      max-width: 200px;
+      max-height: 40px;
+      width: 100%;
+      font-size: 14px;
+      line-height: 17px;
+      margin-top: 20px;
+      /* margin-bottom: 30px; */
+    }
+}
