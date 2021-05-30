@@ -1,12 +1,12 @@
 import React from 'react';
 // import React, { useState } from 'react';
 
-const SearchForm = (props) => {
+const SearchForm = ({ setIsLoading }) => {
   // const [keywordValid, setKeywordValid] = useState(true);
   function submit() {
-    props.setIsLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      props.setIsLoading(false);
+      setIsLoading(false);
     }, 3000);
   }
 

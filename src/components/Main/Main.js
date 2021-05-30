@@ -5,7 +5,7 @@ import NewsCardList from '../NewsCardList/NewsCardList';
 import Preloader from '../Preloader/Preloader';
 import NotFound from '../NotFound/NotFound';
 
-const Main = (props) => {
+const Main = ({ cards, isLoggedIn }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -18,9 +18,9 @@ const Main = (props) => {
         </div>
       ) : (
         <NewsCardList
-          cards={props.cards}
+          cards={cards}
           isSavedNews={false}
-          isLoggedIn={props.isLoggedIn}
+          isLoggedIn={isLoggedIn}
         ></NewsCardList>
       )}
       <About />

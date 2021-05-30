@@ -1,43 +1,102 @@
-import React, { useContext, useState } from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import React, { useState, useEffect, useRef } from 'react';
+// import React, { useState, useContext, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+// import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Navigation from '../Navigation/Navigation';
 
+// const Header = ({
+//   setIsPopupOpen,
+//   setFormPopup,
+//   signoutHandler,
+//   handlePopup,
+//   setIsNavOpen,
+//   isNavOpen,
+//   setLoggedIn,
+//   isFormPopupOpen,
+//   isSavedNews,
+//   isPopupOpen,
+//   isLoggedIn,
+    // setIsRegisterPopup,
+// }) => {
 const Header = (props) => {
+  const {
+    setIsPopupOpen,
+    setFormPopup,
+    signoutHandler,
+    handlePopup,
+    setLoggedIn,
+    isFormPopupOpen,
+    isSavedNews,
+    isPopupOpen,
+    isLoggedIn,
+  } = props;
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const currentUser = useContext(CurrentUserContext);
+  // const currentUser = useContext(CurrentUserContext);
+  const history = useHistory();
+  const willMount = useRef(true);
 
-  function togglePopup() {
-    props.togglePopup(true);
-    props.toggleFormPopup(true);
-    props.toggleIsRegisterPopup(false);
-    setIsNavOpen(false);
-  }
+  // function handlePopup() {
+  //   setIsPopupOpen(true);
+  //   setFormPopup(true);
+  //   setIsRegisterPopup(false);
+  //   setIsNavOpen(false);
+  // }
 
   function handleSignout() {
-    props.toggleLoggedIn(false);
-    setIsNavOpen(false);
+    signoutHandler()
+      .then(() => {
+        setLoggedIn(false);
+        setIsNavOpen(false);
+      })
+      .catch((err) => console.log(err));
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   }
 
-  function toggleNavStatus() {
-    if (props.isFormPopupOpen) {
+  function setIsNavOpenStatus() {
+    if (isFormPopupOpen) {
       setIsNavOpen(false);
-      props.togglePopup(false);
-      props.toggleFormPopup(false);
+      setIsPopupOpen(false);
+      setFormPopup(false);
     } else {
       setIsNavOpen(!isNavOpen);
     }
   }
 
   function navigationLink(activeClass) {
-    if (props.isSavedNews && !isNavOpen) {
+    if (isSavedNews && !isNavOpen) {
       return activeClass;
-    } else if (props.isSavedNews && isNavOpen) {
+    } else if (isSavedNews && isNavOpen) {
       return '';
     } else {
       return '';
     }
   }
+  const compWillMount = (func) => {
+    if (willMount.current) func();
+    willMount.current = false;
+  };
+
+  compWillMount(() => {
+    history.location.state = null;
+    return;
+  });
+
+  useEffect(() => {
+    if (
+      history.location.state === null ||
+      history.location.state === undefined
+    ) {
+      return;
+    } else if (history.location.state.redirected) {
+      handlePopup();
+      return;
+    }
+    return;
+  }, [history.location.state, handlePopup]);
+
   return (
     <header className={`header ${isNavOpen ? 'header_nav-active' : ''}`}>
       <div className='header__size'>
@@ -46,13 +105,9 @@ const Header = (props) => {
         </p>
 
         <button
-          onClick={toggleNavStatus}
+          onClick={setIsNavOpenStatus}
           className={`header__icon ${isNavOpen ? 'header__icon_active' : ''}
-          ${
-            props.isFormPopupOpen || props.isPopupOpen
-              ? 'header__icon_active'
-              : ''
-          }
+          ${isFormPopupOpen || isPopupOpen ? 'header__icon_active' : ''}
           ${navigationLink('header__icon_dark')}`}
         ></button>
         <div
@@ -61,23 +116,26 @@ const Header = (props) => {
           }`}
         >
           <Navigation
-            isLoggedIn={props.isLoggedIn}
-            isSavedNews={props.isSavedNews}
+            isLoggedIn={isLoggedIn}
+            isSavedNews={isSavedNews}
             isNavOpen={isNavOpen}
             navigationLink={navigationLink}
           />
 
-          {props.isLoggedIn ? (
+          {isLoggedIn ? (
             <button
               onClick={handleSignout}
               className={`header__logout
                 ${navigationLink('header__logout_dark')}`}
             >
-              {`${isNavOpen ? 'Sign out' : (currentUser.name = 'Linda')}`}
+              {/* {currentUser.name} */}
+              {/* {isLoggedIn ? `${currentUser.name}` : 'Sign in'} */}
+              {/* {`${isNavOpen ? 'Sign out' : currentUser.name}`} */}
+              {/* {`${isNavOpen ? 'Sign out' : (currentUser.name = 'Linda')}`} */}
             </button>
           ) : (
             <button
-              onClick={togglePopup}
+              onClick={handlePopup}
               className={`header__signin
                 ${navigationLink('header__signin_dark')}`}
             >

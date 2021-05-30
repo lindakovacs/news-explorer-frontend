@@ -90,3 +90,7 @@
   line-height: 15px;
   margin: 3px 0 0;
 }
+
+.form__input_disabled {
+  background-color: #b6b6b6;
+}

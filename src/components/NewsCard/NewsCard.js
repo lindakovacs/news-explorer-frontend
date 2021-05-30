@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-const NewsCard = (props) => {
+const NewsCard = ({ isLoggedIn, isSavedNews, card }) => {
   const [isSaved, seIsSaved] = useState(false);
 
-  function toggleDeleteSave() {
-    if (props.isSavedNews && props.isLoggedIn) {
+  function setDeleteSave() {
+    if (isSavedNews && isLoggedIn) {
       return (
         <button className='news-card__delete-button'>
           <span className='news-card__save-button-label'>
@@ -12,7 +12,7 @@ const NewsCard = (props) => {
           </span>
         </button>
       );
-    } else if (!props.isSavedNews && props.isLoggedIn) {
+    } else if (!isSavedNews && isLoggedIn) {
       return (
         <button
           className={`news-card__save-button
@@ -32,11 +32,11 @@ const NewsCard = (props) => {
   }
 
   function keywords() {
-    if (props.isSavedNews) {
+    if (isSavedNews) {
       return (
         <div className='news-card__keyword'>
           <p>
-            {props.card.keyword[0].toUpperCase() + props.card.keyword.slice(1)}
+            {card.keyword[0].toUpperCase() + card.keyword.slice(1)}
           </p>
         </div>
       );
@@ -45,18 +45,18 @@ const NewsCard = (props) => {
 
   return (
     <li className='news-card'>
-      {toggleDeleteSave()}
+      {setDeleteSave()}
       {keywords()}
       <img
         className='news-card__image'
-        src={props.card.image}
-        alt={props.card.title}
+        src={card.image}
+        alt={card.title}
       />
       <div className='news-card__info-container'>
-        <p className='news-card__date'>{props.card.date}</p>
-        <h3 className='news-card__title'>{props.card.title}</h3>
-        <p className='news-card__text'>{props.card.text}</p>
-        <cite className='news-card__source'>{props.card.source}</cite>
+        <p className='news-card__date'>{card.date}</p>
+        <h3 className='news-card__title'>{card.title}</h3>
+        <p className='news-card__text'>{card.text}</p>
+        <cite className='news-card__source'>{card.source}</cite>
       </div>
     </li>
   );
