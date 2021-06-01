@@ -10,17 +10,15 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
 import SavedNews from '../SavedNews/SavedNews';
-import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import Popup from '../Popup/Popup';
-import { allCards } from '../data/data';
 import Preloader from '../Preloader/Preloader';
 import NotFound from '../NotFound/NotFound';
 import ProtectedRoute from '../../utils/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
+import newsApi from '../../utils/NewsApi';
 
 const App = () => {
-  const [cards, setCards] = useState(allCards);
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isRegisterPopup, setIsRegisterPopup] = useState(false);
@@ -31,35 +29,6 @@ const App = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      getUserInfo()
-        .then((res) => {
-          if (res) {
-            setCurrentUser(res);
-            setServerError(false);
-            setLoggedIn(true);
-            return;
-          }
-        })
-        .catch((err) => {
-          if (err === 'Error: 401') {
-            setLoggedIn(false);
-            setServerError(false);
-          } else {
-            setServerError(true);
-            console.log(err);
-            return;
-          }
-        });
-      return;
-    }
-    setLoggedIn(false);
-    setServerError(false);
-    return;
-  }, []);
 
   function registrationSuccess() {
     setIsRegisterPopup(false);
@@ -79,7 +48,7 @@ const App = () => {
   }, [setIsPopupOpen, setFormPopup, setIsRegisterPopup, setIsNavOpen]);
 
   async function getUserInfo() {
-    const returnedUserInfo = await mainApi.getUserInfo();
+    const returnedUserInfo = await mainApi.getContent();
     return returnedUserInfo;
   }
 
@@ -97,6 +66,56 @@ const App = () => {
     return mainApi.logout();
   }
 
+  function getUserArticles() {
+    localStorage.removeItem('articles');
+    return mainApi.getArticles();
+  }
+
+  function deleteArticleHandler(id) {
+    if (id) {
+      localStorage.removeItem('articles');
+      return mainApi.deleteArticle(id);
+    } else {
+      throw new Error('News ID not deleted');
+    }
+  }
+
+  function addArticleHandler(article) {
+    if (article) {
+      return mainApi.addArticle(article);
+    } else {
+      throw new Error('No article added');
+    }
+  }
+
+  async function searchHandler(keyword) {
+    return newsApi.search(keyword);
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mainApi
+        .getContent(token)
+        .then((res) => {
+          setCurrentUser(res);
+          setServerError(false);
+          setLoggedIn(true);
+        })
+        // .catch((err) => {
+        //   if (err === 'Error: 401') {
+        //     setLoggedIn(false);
+        //     setServerError(false);
+        //   } else {
+        //     setServerError(true);
+        //   }
+        // });
+        .catch((err) => console.log(err));
+    }
+    // setLoggedIn(false);
+    // setServerError(false);
+  }, []);
+
   function checkLoggedIn() {
     if (isLoggedIn === null && serverError === null) {
       return <Preloader />;
@@ -105,7 +124,6 @@ const App = () => {
     } else {
       return (
         <CurrentUserContext.Provider value={currentUser}>
-          {/* <div className='app'> */}
           <div className='page'>
             <Router>
               <Switch>
@@ -128,19 +146,21 @@ const App = () => {
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
-                    cards={cards}
                     isPopupOpen={isPopupOpen}
                     handlePopup={handlePopup}
                     isFormPopupOpen={isFormPopupOpen}
                     setIsPopupOpen={setIsPopupOpen}
                     setFormPopup={setFormPopup}
+                    getUserArticles={getUserArticles}
+                    addArticleHandler={addArticleHandler}
+                    searchHandler={searchHandler}
+                    deleteArticleHandler={deleteArticleHandler}
                   />
                   <Footer />
                 </Route>
                 <Route exact path='/saved-news'>
                   <Header
                     isLoggedIn={isLoggedIn}
-                    cards={cards}
                     isSavedNews={true}
                     isPopupOpen={isPopupOpen}
                     isFormPopupOpen={isFormPopupOpen}
@@ -153,12 +173,6 @@ const App = () => {
                     setIsNavOpen={setIsNavOpen}
                     isNavOpen={isNavOpen}
                   />
-                  <SavedNewsHeader isLoggedIn={isLoggedIn} />
-                  <SavedNews
-                    isLoggedIn={isLoggedIn}
-                    cards={cards}
-                    signoutHandler={signoutHandler}
-                  />
                   <ProtectedRoute
                     component={SavedNews}
                     isLoggedIn={isLoggedIn}
@@ -167,6 +181,9 @@ const App = () => {
                     setFormPopup={setFormPopup}
                     setIsPopupOpen={setIsPopupOpen}
                     handlePopup={handlePopup}
+                    etUserArticles={getUserArticles}
+                    deleteArticleHandler={deleteArticleHandler}
+                    addArticleHandler={addArticleHandler}
                   />
                   <Footer />
                 </Route>
@@ -192,6 +209,7 @@ const App = () => {
                   setRegisterSuccess={setRegisterSuccess}
                   registerHandler={registerHandler}
                   getUserInfo={getUserInfo}
+                  currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
                   signinHandler={signinHandler}
                 />
@@ -234,7 +252,6 @@ const App = () => {
               ''
             )}
           </div>
-          {/* </div> */}
         </CurrentUserContext.Provider>
       );
     }

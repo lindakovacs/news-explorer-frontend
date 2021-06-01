@@ -124,7 +124,6 @@ const PopupWithForm = ({
     } else if (username.length < 5) {
       errors.username = 'Username must be at least 6 characters';
     }
-
     return errors;
   }
 
@@ -138,7 +137,6 @@ const PopupWithForm = ({
       setErrors(false);
       return;
     }
-
     setErrors(validatedInputs);
     return;
   }
@@ -152,7 +150,6 @@ const PopupWithForm = ({
       setErrors(false);
       return;
     }
-
     setErrors(validatedInputs);
     return;
   }

@@ -1,23 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import React, { useState, useContext, useEffect, useRef } from 'react';
+// import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 // import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Navigation from '../Navigation/Navigation';
 
-// const Header = ({
-//   setIsPopupOpen,
-//   setFormPopup,
-//   signoutHandler,
-//   handlePopup,
-//   setIsNavOpen,
-//   isNavOpen,
-//   setLoggedIn,
-//   isFormPopupOpen,
-//   isSavedNews,
-//   isPopupOpen,
-//   isLoggedIn,
-    // setIsRegisterPopup,
-// }) => {
 const Header = (props) => {
   const {
     setIsPopupOpen,
@@ -31,7 +17,6 @@ const Header = (props) => {
     isLoggedIn,
   } = props;
   const [isNavOpen, setIsNavOpen] = useState(false);
-
   // const currentUser = useContext(CurrentUserContext);
   const history = useHistory();
   const willMount = useRef(true);
@@ -48,11 +33,13 @@ const Header = (props) => {
       .then(() => {
         setLoggedIn(false);
         setIsNavOpen(false);
+        localStorage.removeItem('articles');
+        localStorage.removeItem('token');
+        localStorage.removeItem('keyword');
       })
-      .catch((err) => console.log(err));
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   function setIsNavOpenStatus() {
@@ -129,7 +116,7 @@ const Header = (props) => {
                 ${navigationLink('header__logout_dark')}`}
             >
               {/* {currentUser.name} */}
-              {/* {isLoggedIn ? `${currentUser.name}` : 'Sign in'} */}
+              {/* {isNavOpen ? 'Sign in' : `${currentUser.name}` } */}
               {/* {`${isNavOpen ? 'Sign out' : currentUser.name}`} */}
               {/* {`${isNavOpen ? 'Sign out' : (currentUser.name = 'Linda')}`} */}
             </button>

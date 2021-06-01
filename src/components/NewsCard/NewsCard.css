@@ -210,6 +210,13 @@
   text-transform: uppercase;
 }
 
+.news-card__anchor {
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #1a1b22;
+}
+
 @media screen and (max-width: 1050px) {
   .news-card {
     width: 224px;

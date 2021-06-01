@@ -68,27 +68,71 @@ class MainApi {
   }
 
   getContent(token) {
-    return (
-      fetch(`${this._baseUrl}/users/me`, {
-        method: 'GET',
-        headers: {
-          Acccept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        Acccept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`${res.status} - ${res.message}`);
       })
-        .then((res) => {
-          return res.ok
-            ? res.json()
-            : Promise.reject(`${res.status} - ${res.message}`);
-        })
-        // .then((data) => {
-        //   return data;
-        // })
-        .then((data) => data)
-        .catch((err) => console.log(err))
-    );
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+
+    // .then((res) => {
+    //   if (res.ok) {
+    //     return res.json();
+    //   }
+    // });
+    // .then((res) => {
+    //   return res.json();
+    // })
+    // .then((data) => {
+    //   return data;
+    // })
   }
+
+  getUserInfo(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    });
+  }
+  // getUserInfo(token) {
+  //   return fetch(`${this._baseUrl}/users/me`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }).then((res) => {
+  //     if (res.ok) {
+  //       return res.json();
+  //     }
+  //   });
+  //   // })
+  //   // .then((res) =>
+  //   //   res.ok
+  //   //     ? res.json()
+  //   //     : Promise.reject(new Error(`${res.status} - ${res.message}`))
+  //   // )
+  //   // .then((data) => data)
+  //   //.catch((err) => console.log(err))
+  // }
 
   getArticles(token) {
     return fetch(`${this._baseUrl}/articles`, {
@@ -105,58 +149,6 @@ class MainApi {
     });
     // .then((res) => res.json())
   }
-
-  getUserInfo(token) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    });
-    // })
-    // .then((res) =>
-    //   res.ok
-    //     ? res.json()
-    //     : Promise.reject(new Error(`${res.status} - ${res.message}`))
-    // )
-    // .then((data) => data);
-  }
-
-  // updateAvatar(imageLink, token) {
-  //   return fetch(`${this._baseUrl}/users/me/avatar`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     method: 'PATCH',
-  //     body: JSON.stringify({ avatar: imageLink }),
-  //   }).then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
-  //   });
-  // }
-
-  // updateProfile({ name, about }, token) {
-  //   return fetch(`${this._baseUrl}/users/me`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     method: 'PATCH',
-  //     body: JSON.stringify({ name, about }),
-  //   }).then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
-  //   });
-  // }
 
   addArticle(article, token) {
     return (
@@ -190,58 +182,11 @@ class MainApi {
       return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
     });
   }
-
-  // changeLikeArticleStatus(articleId, isLiked, token) {
-  //   return fetch(`${this._baseUrl}/articles/likes/${articleId}`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     method: isLiked ? 'DELETE' : 'PUT',
-  //   }).then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
-  //   });
-  // }
 }
-
-// Add and Remove Likes
-// changeLikeCardStatus(isLiked, cardId) {
-//   if (isLiked) {
-//     //unlike heart button
-//     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-//       method: 'DELETE',
-//       headers: this._headers,
-//     })
-//       .then((res) => {
-//         if (res.ok) {
-//           return res.json();
-//         }
-//         return Promise.reject(`Error: ${res.status}`);
-//       })
-//       .catch(err => console.log(err));
-//   } else {
-//     //like heart button
-//     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-//       method: 'PUT',
-//       headers: this._headers,
-//     })
-//       .then((res) => {
-//         if (res.ok) {
-//           return res.json();
-//         }
-//         return Promise.reject(`Error: ${res.status}`);
-//       })
-//       .catch(err => console.log(err));
-//      }
-//    }
-// }
 
 const mainApi = new MainApi({
   baseUrl: 'http://localhost:3001', //localhost
   //baseUrl: "https://api.lkovacs.students.nomoreparties.site", //api back-end
-  // baseUrl: 'https://around.nomoreparties.co/v1/group-2',
   // headers: {
   //   // Authorization: 'd38c3eff-8aa3-43a2-86b1-ec6a6fc8a616',
   //   'Content-Type': 'application/json',
