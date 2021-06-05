@@ -36,7 +36,7 @@ const NewsCardList = ({
       return cards.slice(0, visibleCards).map((card) => {
         return (
           <NewsCard
-            key={card.link}
+            key={card.url}
             _id={card._id}
             keyword={card.keyword}
             date={card.publishedAt}
@@ -61,7 +61,7 @@ const NewsCardList = ({
 
   return (
     <section className='news-card-list'>
-      <div className='news-card-list__width'>
+      <div className='news-card-list__wrapper'>
         {!isSavedNews ? (
           <h2 className='news-card-list__title'>Search results</h2>
         ) : (

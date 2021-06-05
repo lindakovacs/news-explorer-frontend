@@ -46,7 +46,7 @@ class MainApi {
         })
         // .then((res) => res.json())
         .then((data) => {
-          if (!data.message) {
+          if (data.token) {
             localStorage.setItem('token', data.token);
             return data;
             // } else {
@@ -67,72 +67,45 @@ class MainApi {
     });
   }
 
-  getContent(token) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: 'GET',
-      headers: {
-        Acccept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`${res.status} - ${res.message}`);
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-
-    // .then((res) => {
-    //   if (res.ok) {
-    //     return res.json();
-    //   }
-    // });
-    // .then((res) => {
-    //   return res.json();
-    // })
-    // .then((data) => {
-    //   return data;
-    // })
-  }
-
   getUserInfo(token) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    });
+    return (
+      fetch(`${this._baseUrl}/users/me`, {
+        method: 'GET',
+        headers: {
+          Acccept: 'application/json',
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      })
+        // .then((res) => {
+        //   return res.ok
+        //     ? res.json()
+        //     : Promise.reject(`${res.status} - ${res.message}`);
+        // })
+        // .then((data) => {
+        //   return data;
+        // })
+        // .catch((err) => console.log(err));
+
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+    );
   }
+
   // getUserInfo(token) {
   //   return fetch(`${this._baseUrl}/users/me`, {
-  //     method: 'GET',
   //     headers: {
-  //       Accept: 'application/json',
   //       'Content-Type': 'application/json',
   //       Authorization: `Bearer ${token}`,
   //     },
   //   }).then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
+  //     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
   //   });
-  //   // })
-  //   // .then((res) =>
-  //   //   res.ok
-  //   //     ? res.json()
-  //   //     : Promise.reject(new Error(`${res.status} - ${res.message}`))
-  //   // )
-  //   // .then((data) => data)
-  //   //.catch((err) => console.log(err))
   // }
+
 
   getArticles(token) {
     return fetch(`${this._baseUrl}/articles`, {
@@ -140,7 +113,7 @@ class MainApi {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
       },
     }).then((res) => {
       if (res.ok) {
@@ -153,12 +126,12 @@ class MainApi {
   addArticle(article, token) {
     return (
       fetch(`${this._baseUrl}/articles`, {
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
-        method: 'POST',
         body: JSON.stringify(article),
       })
         // .then((res) => {
@@ -172,12 +145,12 @@ class MainApi {
 
   deleteArticle(articleId, token) {
     return fetch(`${this._baseUrl}/articles/${articleId}`, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
       },
-      method: 'DELETE',
     }).then((res) => {
       return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
     });
@@ -187,11 +160,11 @@ class MainApi {
 const mainApi = new MainApi({
   baseUrl: 'http://localhost:3001', //localhost
   //baseUrl: "https://api.lkovacs.students.nomoreparties.site", //api back-end
-  // headers: {
-  //   // Authorization: 'd38c3eff-8aa3-43a2-86b1-ec6a6fc8a616',
-  //   'Content-Type': 'application/json',
-  //   Authorization: `Bearer ${token}`,
-  // },
+  headers: {
+    // Authorization: 'd38c3eff-8aa3-43a2-86b1-ec6a6fc8a616',
+    'Content-Type': 'application/json',
+    // Authorization: `Bearer ${token}`,
+  },
 });
 
 export default mainApi;

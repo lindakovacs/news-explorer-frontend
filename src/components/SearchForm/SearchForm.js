@@ -69,7 +69,7 @@ const SearchForm = ({
 
   function newsSearch() {
     setInputDisable(true);
-    localStorage.setItem('keyword', searchRef.current.value);
+    localStorage.setItem('keyword-search', searchRef.current.value);
     if (searchRef.current.value.length > 0) {
       setIsLoading(true);
 
@@ -157,14 +157,14 @@ const SearchForm = ({
   }
 
   useEffect(() => {
-    const searchResults = localStorage.getItem('recent-search-keyword');
+    const searchResults = localStorage.getItem('keyword-search');
     if (searchResults) {
       searchRef.current.value = searchResults;
       newsSearch();
       return;
     }
     return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [isLoggedIn]);
 
   return (

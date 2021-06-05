@@ -9,41 +9,47 @@ import {
 class NewsApi {
   constructor(options) {
     this.headers = options.headers;
-    this.apiKey = options.apiKey;
-    this.today = options.today;
-    this.lastWeek = options.lastWeek;
-    this.newsUrl = options.newsUrl;
-    this.practicumUrl = options.practicumUrl;
-    this.pageSize = options.pageSize;
-    this.endpoint = options.endpoint;
+    this._apiKey = options.apiKey;
+    this._today = options.today;
+    this._lastWeek = options.lastWeek;
+    this._newsUrl = options.newsUrl;
+    this._practicumUrl = options.practicumUrl;
+    this._pageSize = options.pageSize;
+    this._endpoint = options.endpoint;
   }
 
   search(keyword) {
-    return (
-      fetch(
-        `${this.newsUrl}` +
-          `${this.endpoint}` +
-          `q=${keyword}&` +
-          `apiKey=${this.apiKey}&` +
-          `from=${this.lastWeek.toISOString()}&` +
-          `to=${this.today.toISOString()}&` +
-          `pageSize=${this.pageSize}&` +
-          `sortBy=popularity`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
+    return fetch(
+      // `${this.newsUrl}` +
+        `${this._practicumUrl}` +
+        `${this._endpoint}` +
+        `q=${keyword}&` +
+        `apiKey=${this._apiKey}&` +
+        `from=${this._lastWeek.toISOString()}&` +
+        `to=${this._today.toISOString()}&` +
+        `pageSize=${this._pageSize}&` +
+        `sortBy=popularity`,
+      {
+        method: 'GET',
+        headers: {
+          // 'Content-Type': 'application/json',
+          Accept: 'application/json',
+          // Authorization: this.apiKey,
+        },
+      }
+    )
+    // .then((res) => {
+    //   if (res.ok) {
+    //     return res.json();
+    //   }
+    //   return Promise.reject(new Error(`Error: ${res.status}`));
+    // })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
         }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
-        })
-        .then((data) => data.articles)
-    );
+      })
+      .then((data) => data.articles);
   }
 }
 

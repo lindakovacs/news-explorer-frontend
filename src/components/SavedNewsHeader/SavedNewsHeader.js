@@ -34,7 +34,7 @@ const SavedNewsHeader = ({ saveNews, sortKeyword }) => {
       <div className='saved-news-header__container'>
         <p className='saved-news-header__label'>Saved articles</p>
         <h2 className='saved-news-header__title'>
-          {currentUser.name}, you have{' '}
+          {currentUser && currentUser.name}, you have{' '}
           {saveNews && saveNews.length > 0 ? saveNews.length : 'no'} saved
           articles
         </h2>

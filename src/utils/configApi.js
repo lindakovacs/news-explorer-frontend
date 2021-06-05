@@ -1,4 +1,11 @@
+const BASE_URL = 'http://localhost:3000';
 //const BASE_URL = 'https://api.lkovacs.students.nomoreparties.site', //api back-end
+
+// export const BASE_URL =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://api.lkovacs.students.nomoreparties.site'
+//     : 'http://localhost:3000';
+
 const INITIAL_CARDS = 3;
 const PAGE_SIZE = 100;
 const SEARCH_INTERVAL = 7 * 24 * 3600 * 1000;
@@ -7,6 +14,7 @@ const NEWS_URL = 'http://newsapi.org/v2';
 const PROXY_URL = 'http://nomoreparties.co/news/v2';
 
 export {
+  BASE_URL,
   PAGE_SIZE,
   INITIAL_CARDS,
   SEARCH_INTERVAL,
@@ -14,4 +22,3 @@ export {
   NEWS_URL,
   PROXY_URL,
 };
-

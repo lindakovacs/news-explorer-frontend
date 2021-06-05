@@ -64,7 +64,7 @@ const Main = ({
       } else if (cards) {
         return (
           <NewsCardList
-            isSavedNewsRoute={false}
+            isSavedNews={false}
             isLoggedIn={isLoggedIn}
             cards={cards}
             setCards={setCards}

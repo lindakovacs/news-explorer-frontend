@@ -14,7 +14,7 @@ import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import Popup from '../Popup/Popup';
 import Preloader from '../Preloader/Preloader';
 import NotFound from '../NotFound/NotFound';
-import ProtectedRoute from '../../utils/ProtectedRoute';
+// import ProtectedRoute from '../../utils/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
 import newsApi from '../../utils/NewsApi';
 
@@ -48,7 +48,7 @@ const App = () => {
   }, [setIsPopupOpen, setFormPopup, setIsRegisterPopup, setIsNavOpen]);
 
   async function getUserInfo() {
-    const returnedUserInfo = await mainApi.getContent();
+    const returnedUserInfo = await mainApi.getUserInfo();
     return returnedUserInfo;
   }
 
@@ -96,7 +96,7 @@ const App = () => {
     const token = localStorage.getItem('token');
     if (token) {
       mainApi
-        .getContent(token)
+        .getUserInfo()
         .then((res) => {
           setCurrentUser(res);
           setServerError(false);
@@ -173,15 +173,15 @@ const App = () => {
                     setIsNavOpen={setIsNavOpen}
                     isNavOpen={isNavOpen}
                   />
-                  <ProtectedRoute
-                    component={SavedNews}
+                  <SavedNews
+                    // component={SavedNews}
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     setFormPopup={setFormPopup}
                     setIsPopupOpen={setIsPopupOpen}
                     handlePopup={handlePopup}
-                    etUserArticles={getUserArticles}
+                    getUserArticles={getUserArticles}
                     deleteArticleHandler={deleteArticleHandler}
                     addArticleHandler={addArticleHandler}
                   />
@@ -259,4 +259,4 @@ const App = () => {
   return checkLoggedIn();
 };
 
-export default App;
+export default App; 
