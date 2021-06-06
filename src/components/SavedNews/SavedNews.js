@@ -72,13 +72,14 @@ const SavedNews = ({
   const getCards = useCallback(() => {
     setIsLoading(true);
     const cards = JSON.parse(localStorage.getItem('articles'));
+    const token = localStorage.getItem('token');
     if (cards) {
       const keywordRankArr = keywordRank(cards);
       setSortKeyword(keywordRankArr);
       setSaveNews(cards);
       setIsLoading(false);
     } else {
-      getUserArticles()
+      getUserArticles(token)
         .then((res) => {
           let newCards = [];
           res.forEach((card) => {

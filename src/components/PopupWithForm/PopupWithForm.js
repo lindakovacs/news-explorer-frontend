@@ -57,7 +57,7 @@ const PopupWithForm = ({
       .then((res) => {
         if (res) {
           localStorage.setItem('token', res.token);
-          getUserInfo()
+          getUserInfo(res.token)
             .then((res) => {
               setCurrentUser(res);
             })

@@ -20,7 +20,7 @@ const SearchForm = ({
         if (!saveNews) {
           throw new Error('Saved articles failed');
         } else if (saveNews.length === 0 || null) {
-          res.articles.forEach((article) => {
+          res.forEach((article) => {
             article.keyword = searchRef.current.value;
             newArticles.push(article);
           });
@@ -29,7 +29,7 @@ const SearchForm = ({
           saveNews.forEach((card) => {
             urlArr.push(card.url);
           });
-          res.articles.forEach((article) => {
+          res.forEach((article) => {
             if (urlArr.includes(article.url)) {
               article.isSaved = true;
               saveNews.forEach((card) => {
@@ -77,7 +77,7 @@ const SearchForm = ({
         searchHandler(searchRef.current.value)
           .then((res) => {
             let newArticles = [];
-            res.articles.forEach((article) => {
+            res.forEach((article) => {
               article.keyword = searchRef.current.value;
               newArticles.push(article);
             });
@@ -104,16 +104,16 @@ const SearchForm = ({
       }
 
       let saveNews;
-
+      const token = localStorage.getItem('token');
       if (localStorage.getItem('articles')) {
         saveNews = JSON.parse(localStorage.getItem('articles'));
         searchSort(saveNews);
         return;
       } else {
-        getUserArticles()
+        getUserArticles(token)
           .then((res) => {
             let newCards = [];
-            res.forEach((card) => {
+            res.data.forEach((card) => {
               const newCard = {
                 _id: card._id,
                 keyword: card.keyword,

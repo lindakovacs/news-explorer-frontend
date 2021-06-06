@@ -40,6 +40,7 @@ const NewsCard = ({
       throw new Error('Article not saved');
     }
   }
+  
   async function handleArticleSave() {
     if (isSavedIcon) {
       handleDelete();

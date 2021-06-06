@@ -4,6 +4,7 @@ import {
   Route,
   Switch,
   Redirect,
+  useHistory,
 } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
@@ -14,7 +15,7 @@ import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import Popup from '../Popup/Popup';
 import Preloader from '../Preloader/Preloader';
 import NotFound from '../NotFound/NotFound';
-// import ProtectedRoute from '../../utils/ProtectedRoute';
+import ProtectedRoute from '../../utils/ProtectedRoute';
 import mainApi from '../../utils/MainApi';
 import newsApi from '../../utils/NewsApi';
 
@@ -29,6 +30,7 @@ const App = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
+  const history = useHistory();
 
   function registrationSuccess() {
     setIsRegisterPopup(false);
@@ -47,8 +49,8 @@ const App = () => {
     setIsNavOpen(false);
   }, [setIsPopupOpen, setFormPopup, setIsRegisterPopup, setIsNavOpen]);
 
-  async function getUserInfo() {
-    const returnedUserInfo = await mainApi.getUserInfo();
+  async function getUserInfo(token) {
+    const returnedUserInfo = await mainApi.getUserInfo(token);
     return returnedUserInfo;
   }
 
@@ -60,15 +62,24 @@ const App = () => {
     return mainApi.authorize(email, password);
   }
 
-  function signoutHandler() {
-    setLoggedIn(false);
-    localStorage.clear();
-    return mainApi.logout();
-  }
+  // function signoutHandler() {
+  //   setLoggedIn(false);
+  //   localStorage.clear();
+  //   return mainApi.logout();
+  // }
 
-  function getUserArticles() {
+function signoutHandler() {
+  setLoggedIn(false);
+  setIsNavOpen(false);
+  localStorage.removeItem('articles');
+  localStorage.removeItem('token');
+  localStorage.removeItem('keyword-search');
+  history.push('/');
+}
+
+  function getUserArticles(token) {
     localStorage.removeItem('articles');
-    return mainApi.getArticles();
+    return mainApi.getArticles(token);
   }
 
   function deleteArticleHandler(id) {
@@ -96,7 +107,7 @@ const App = () => {
     const token = localStorage.getItem('token');
     if (token) {
       mainApi
-        .getUserInfo()
+        .getUserInfo(token)
         .then((res) => {
           setCurrentUser(res);
           setServerError(false);
@@ -173,8 +184,8 @@ const App = () => {
                     setIsNavOpen={setIsNavOpen}
                     isNavOpen={isNavOpen}
                   />
-                  <SavedNews
-                    // component={SavedNews}
+                  <ProtectedRoute
+                    component={SavedNews}
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}

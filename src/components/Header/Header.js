@@ -10,7 +10,6 @@ const Header = (props) => {
     setFormPopup,
     signoutHandler,
     handlePopup,
-    setLoggedIn,
     isFormPopupOpen,
     isSavedNews,
     isPopupOpen,
@@ -29,20 +28,6 @@ const Header = (props) => {
   //   setIsRegisterPopup(false);
   //   setIsNavOpen(false);
   // }
-
-  function handleSignout() {
-    signoutHandler()
-      .then(() => {
-        setLoggedIn(false);
-        setIsNavOpen(false);
-        localStorage.removeItem('articles');
-        localStorage.removeItem('token');
-        localStorage.removeItem('keyword-search');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   function setIsNavOpenStatus() {
     if (isFormPopupOpen) {
@@ -113,15 +98,11 @@ const Header = (props) => {
 
           {isLoggedIn ? (
             <button
-              onClick={handleSignout}
+              onClick={signoutHandler ? signoutHandler : null}
               className={`header__logout
                 ${navigationLink('header__logout_dark')}`}
             >
-              {/* {currentUser.name} */}
-              {`${isNavOpen ? 'Sign out' : currentUser && props.name}`}
-              {/* {isNavOpen ? 'Sign in' : `${currentUser && currentUser.name}`} */}
-              {/* {`${isNavOpen ? 'Sign out' : currentUser.name}`} */}
-              {/* {`${isNavOpen ? 'Sign out' : (currentUser.name = 'Linda')}`} */}
+              {isNavOpen ? 'Sign in' : `${currentUser && currentUser.name}`}
             </button>
           ) : (
             <button

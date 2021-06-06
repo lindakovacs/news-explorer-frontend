@@ -57,14 +57,15 @@ class MainApi {
   }
 
   logout() {
-    return fetch(`${this._baseUrl}/users/logout`, {
+    return fetch(`${this._baseUrl}/logout`, {
       headers: {
         Acccept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-    });
+    }).then((res) => res.json());
+    // .then((res) => {
+    //   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    // });
   }
 
   getUserInfo(token) {
@@ -86,26 +87,16 @@ class MainApi {
         //   return data;
         // })
         // .catch((err) => console.log(err));
-
-        .then((res) => {
+        // .then((res) => {
+        //     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+        // });
+              .then((res) => {
           if (res.ok) {
             return res.json();
           }
         })
     );
   }
-
-  // getUserInfo(token) {
-  //   return fetch(`${this._baseUrl}/users/me`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   }).then((res) => {
-  //     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  //   });
-  // }
-
 
   getArticles(token) {
     return fetch(`${this._baseUrl}/articles`, {
@@ -124,23 +115,24 @@ class MainApi {
   }
 
   addArticle(article, token) {
-    return (
-      fetch(`${this._baseUrl}/articles`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(article),
-      })
-        // .then((res) => {
-        //   if (res.ok) {
-        //     return res.json();
-        //   }
-        // });
-        .then((res) => res.json())
-    );
+    return fetch(`${this._baseUrl}/articles`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(article),
+    })
+    // .then((res) => {
+    //   if (res.ok) {
+    //     return res.json();
+    //   }
+    // });
+    .then((res) => res.json())
+    // .then((res) => {
+    //     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    //   });
   }
 
   deleteArticle(articleId, token) {
@@ -161,7 +153,6 @@ const mainApi = new MainApi({
   baseUrl: 'http://localhost:3001', //localhost
   //baseUrl: "https://api.lkovacs.students.nomoreparties.site", //api back-end
   headers: {
-    // Authorization: 'd38c3eff-8aa3-43a2-86b1-ec6a6fc8a616',
     'Content-Type': 'application/json',
     // Authorization: `Bearer ${token}`,
   },

@@ -27,8 +27,9 @@ class NewsApi {
         `apiKey=${this._apiKey}&` +
         `from=${this._lastWeek.toISOString()}&` +
         `to=${this._today.toISOString()}&` +
-        `pageSize=${this._pageSize}&` +
-        `sortBy=popularity`,
+        `pageSize=${this._pageSize}`,
+        // `pageSize=${this._pageSize}&` +
+        // `sortBy=popularity`,
       {
         method: 'GET',
         headers: {
