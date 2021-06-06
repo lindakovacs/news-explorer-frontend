@@ -71,8 +71,8 @@ const SavedNews = ({
 
   const getCards = useCallback(() => {
     setIsLoading(true);
-    const cards = JSON.parse(localStorage.getItem('articles'));
     const token = localStorage.getItem('token');
+    const cards = JSON.parse(localStorage.getItem('articles'));
     if (cards) {
       const keywordRankArr = keywordRank(cards);
       setSortKeyword(keywordRankArr);

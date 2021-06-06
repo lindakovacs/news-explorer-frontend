@@ -40,7 +40,6 @@ const NewsCard = ({
       throw new Error('Article not saved');
     }
   }
-  
   async function handleArticleSave() {
     if (isSavedIcon) {
       handleDelete();
@@ -54,7 +53,7 @@ const NewsCard = ({
         source,
         link: url,
         image,
-      });
+      },);
 
       if (savedArticleId) {
         setIsSavedIcon(true);

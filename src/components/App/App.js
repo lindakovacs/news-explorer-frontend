@@ -78,14 +78,14 @@ function signoutHandler() {
 }
 
   function getUserArticles(token) {
-    localStorage.removeItem('articles');
+    localStorage.getItem('articles');
     return mainApi.getArticles(token);
   }
 
-  function deleteArticleHandler(id) {
-    if (id) {
+  function deleteArticleHandler(articleId) {
+    if (articleId) {
       localStorage.removeItem('articles');
-      return mainApi.deleteArticle(id);
+      return mainApi.deleteArticle(articleId);
     } else {
       throw new Error('News ID not deleted');
     }
