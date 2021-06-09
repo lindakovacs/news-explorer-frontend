@@ -29,17 +29,19 @@ const NewsCard = ({
     } else {
       return date.split('T')[0];
     }
-  }
+  };
 
   async function handleDelete() {
     const cardDeleted = await deleteArticleHandler(cardId);
     if (cardDeleted) {
       setIsSavedIcon(false);
       return;
-    } else {
-      throw new Error('Article not saved');
-    }
+    } 
+    // else {
+    //   throw new Error('Article not saved');
+    // }
   }
+
   async function handleArticleSave() {
     if (isSavedIcon) {
       handleDelete();
@@ -120,6 +122,7 @@ const NewsCard = ({
       );
     }
   }
+
   useEffect(() => {
     if (_id) {
       setCardId(_id);
@@ -156,6 +159,6 @@ const NewsCard = ({
       </a>
     </li>
   );
-};;;;
+}
 
 export default NewsCard;
