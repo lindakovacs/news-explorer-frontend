@@ -11,6 +11,7 @@ const SearchForm = ({
 }) => {
   const searchRef = useRef();
   const [disableInputs, setInputDisable] = useState(false);
+  const errorMessage = 'Please enter a keyword';
 
   function searchSort(saveNews) {
     searchHandler(searchRef.current.value)
@@ -113,7 +114,7 @@ const SearchForm = ({
         getUserArticles(token)
           .then((res) => {
             let newCards = [];
-            res.data.forEach((card) => {
+            res.forEach((card) => {
               const newCard = {
                 _id: card._id,
                 keyword: card.keyword,
@@ -190,11 +191,10 @@ const SearchForm = ({
             ref={searchRef}
             onKeyUp={handleEnterKey}
             type='text'
-            placeholder='Enter topic'
+            placeholder={disableInputs ? errorMessage : 'Enter topic'}
             className={`search-bar__input ${
               disableInputs ? 'search-bar__input_disabled' : ''
             }`}
-            disabled={disableInputs}
           />
           <button type='submit' className='search-bar__button'>
             Search

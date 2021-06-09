@@ -43,7 +43,7 @@ const Main = ({
     })
       .then((res) => {
         if (res) {
-          localStorage.getItem('articles');
+          localStorage.removeItem('articles');
           return res._id;
         }
         return false;

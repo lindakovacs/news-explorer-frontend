@@ -33,11 +33,13 @@ const NewsCardList = ({
     if (cards.length === 0) {
       return <NotFound error={false} />;
     } else if (cards) {
-      return cards.slice(0, visibleCards).map((card) => {
+      return cards.slice(0, visibleCards).map((card, key) => {
         return (
           <NewsCard
-            key={card.url}
-            _id={card._id}
+            // key={card.url}
+            // _id={card._id}
+            key={key}
+            _id={card._id || Math.random()}
             keyword={card.keyword}
             date={card.publishedAt}
             title={card.title}

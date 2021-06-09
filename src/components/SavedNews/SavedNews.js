@@ -1,5 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
+// import { useHistory } from 'react-router-dom';
 import NewsCardList from '../NewsCardList/NewsCardList';
 import Preloader from '../Preloader/Preloader';
 import NotFound from '../NotFound/NotFound';
@@ -14,6 +15,13 @@ const SavedNews = ({
 }) => {
   const [saveNews, setSaveNews] = useState();
   const [sortKeyword, setSortKeyword] = useState([]);
+  // const history = useHistory();
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     history.push('/saved-news');
+  //   }
+  // }, [history]);
 
   function deleteCard(id) {
     if (id) {
@@ -150,8 +158,8 @@ const SavedNews = ({
   return (
     <section className='saved-news'>
       <SavedNewsHeader 
-      saveNews={saveNews} 
-      sortKeyword={sortKeyword} 
+        saveNews={saveNews} 
+        sortKeyword={sortKeyword} 
       />
       {renderCardList()}
     </section>

@@ -56,14 +56,16 @@ class MainApi {
     );
   }
 
-  getUserInfo(token) {
+  getUserInfo() {
+    // getUserInfo(token) {
     return (
       fetch(`${this._baseUrl}/users/me`, {
         method: 'GET',
         headers: {
           Acccept: 'application/json',
           'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`,
+          // authorization: `Bearer ${token}`,
+          authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
         // .then((res) => {
@@ -85,14 +87,15 @@ class MainApi {
         })
     );
   }
-
-  getArticles(token) {
+  getArticles() {
+    // getArticles(token) {
     return fetch(`${this._baseUrl}/articles`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`,
+        // authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then((res) => {
       if (res.ok) {
@@ -103,13 +106,15 @@ class MainApi {
   }
 
   addArticle(article) {
-    const token = localStorage.getItem('token');
-    return fetch(`${this._baseUrl}/articles`, {
+    // const token = localStorage.getItem('token');
+    return (
+      fetch(`${this._baseUrl}/articles`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`,
+          // authorization: `Bearer ${token}`,
+          authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(article),
       })
@@ -119,13 +124,14 @@ class MainApi {
         //   }
         // });
         // .then((res) => res.json())
-    //     .then((data) => {
-    //       return data;
-    //     })
-    // );
-    .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
+        //     .then((data) => {
+        //       return data;
+        //     })
+        // );
+        .then((res) => {
+          return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+        })
+    );
   }
 
   deleteArticle(articleId) {
@@ -136,6 +142,7 @@ class MainApi {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         authorization: `Bearer ${token}`,
+        // authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then((res) => {
       return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
@@ -145,7 +152,7 @@ class MainApi {
 
 const mainApi = new MainApi({
   // baseUrl: 'http://localhost:3001', //localhost
-  baseUrl: "https://lkovacs-news.students.nomoreparties.site", //api back-end
+  baseUrl: 'https://lkovacs-news.students.nomoreparties.site', //api back-end
   headers: {
     // 'Content-Type': 'application/json',
     // Authorization: `Bearer ${token}`,
