@@ -84,8 +84,9 @@ function signoutHandler() {
 
   function deleteArticleHandler(articleId) {
     if (articleId) {
+      const token = localStorage.getItem('token');
       localStorage.removeItem('articles');
-      return mainApi.deleteArticle(articleId);
+      return mainApi.deleteArticle(articleId, token);
     } else {
       throw new Error('News ID not deleted');
     }

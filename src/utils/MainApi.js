@@ -134,8 +134,8 @@ class MainApi {
     );
   }
 
-  deleteArticle(articleId) {
-    const token = localStorage.removeItem('token');
+  deleteArticle(articleId, token) {
+    // const token = localStorage.removeItem('token');
     return fetch(`${this._baseUrl}/articles/${articleId}`, {
       method: 'DELETE',
       headers: {
@@ -144,9 +144,10 @@ class MainApi {
         authorization: `Bearer ${token}`,
         // authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-    });
+    })
+    // .then((res) => {
+    //   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    // });
   }
 }
 
