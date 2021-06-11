@@ -1,40 +1,119 @@
 import React, { useState, useRef } from 'react';
-import validator from 'validator';
+// import validator from 'validator';
 
-const PopupWithForm = (props) => {
+const PopupWithForm = ({
+  isRegisterPopup,
+  setIsRegisterPopup,
+  isFormPopupOpen,
+  setFormPopup,
+  setRegisterSuccessPopup,
+  setIsPopupOpen,
+  setLoggedIn,
+  setRegisterSuccess,
+  setCurrentUser,
+  registerHandler,
+  signinHandler,
+  getUserInfo,
+}) => {
   const [errors, setErrors] = useState({});
+  const [signinFailed, setSigninFailed] = useState(false);
+  const [badRequest, setBadRequest] = useState(false);
+  const [disableInputs, setInputDisable] = useState(false);
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    emailRef.current.value = '';
-    passwordRef.current.value = '';
-    nameRef.current.value = '';
-    props.toggleRegisterSuccessPopup(true);
-    props.toggleFormPopup(false);
-    props.toggleRegisterSuccess(true);
+    registerHandler(
+      emailRef.current.value,
+      passwordRef.current.value,
+      nameRef.current.value
+    )
+      .then((res) => {
+        if (res) {
+          setRegisterSuccessPopup(true);
+          setFormPopup(false);
+          setRegisterSuccess(true);
+        } else {
+          setRegisterSuccess(false);
+          setFormPopup(false);
+          setRegisterSuccessPopup(true);
+        }
+      })
+      .catch((err) => {
+        setRegisterSuccess(false);
+        setFormPopup(false);
+        setRegisterSuccessPopup(true);
+        console.log(err);
+      });
   }
 
   function handleSigninSubmit(e) {
     e.preventDefault();
-    emailRef.current.value = '';
-    passwordRef.current.value = '';
-    props.toggleLoggedIn(true);
-    closePopup();
+    setInputDisable(true);
+    signinHandler(emailRef.current.value, passwordRef.current.value)
+      .then((res) => {
+        if (res) {
+          localStorage.setItem('token', res.token);
+          getUserInfo(res.token)
+            .then((res) => {
+              setCurrentUser(res);
+            })
+            .then(() => {
+              emailRef.current.value = '';
+              passwordRef.current.value = '';
+              setSigninFailed(false);
+              setInputDisable(false);
+              setFormPopup(false);
+              setLoggedIn(true);
+              closePopup();
+            })
+            .catch(() => {
+              setSigninFailed(true);
+              setInputDisable(false);
+              setBadRequest(true);
+            });
+        } else {
+          setSigninFailed(true);
+          setInputDisable(false);
+          setBadRequest(true);
+        }
+      })
+      .catch((err) => {
+        if (err === 'Error: 400') {
+          setSigninFailed(true);
+          setBadRequest(true);
+          setInputDisable(false);
+        } else {
+          setSigninFailed(true);
+          setInputDisable(false);
+          console.log(err);
+        }
+      });
+  }
+
+  function isEmail(email) {
+    let re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  function isStrongPassword(password) {
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
+    return re.test(password);
   }
 
   function validateInputs(email, password, username = null) {
     const errors = {};
 
-    if (!email || !validator.isEmail(email)) {
+    if (!email || !isEmail(email)) {
       errors.email = 'Invalid email address';
     }
 
     if (!password) {
       errors.password = 'Password is a required field';
-    } else if (!validator.isStrongPassword(password, { minSymbols: 0 })) {
+    } else if (!isStrongPassword(password, { minSymbols: 0 })) {
       errors.password =
         'Password must be at least 8 characters and contain a number and a capital letter.';
     }
@@ -45,7 +124,6 @@ const PopupWithForm = (props) => {
     } else if (username.length < 5) {
       errors.username = 'Username must be at least 6 characters';
     }
-
     return errors;
   }
 
@@ -59,7 +137,6 @@ const PopupWithForm = (props) => {
       setErrors(false);
       return;
     }
-
     setErrors(validatedInputs);
     return;
   }
@@ -73,27 +150,27 @@ const PopupWithForm = (props) => {
       setErrors(false);
       return;
     }
-
     setErrors(validatedInputs);
     return;
   }
 
   function closePopup() {
-    props.togglePopup(false);
-    props.toggleFormPopup(false);
+    setIsPopupOpen(false);
+    // setFormPopup(false);
   }
 
   function handleRegisterPopup() {
-    props.toggleIsRegisterPopup(!props.isRegisterPopup);
+    setBadRequest(false);
+    setIsRegisterPopup(!isRegisterPopup);
   }
 
-  function handleSignin() {
-    props.toggleLoggedIn(true);
-    closePopup();
-  }
+  // function handleSignin() {
+  //   props.setLoggedIn(true);
+  //   closePopup();
+  // }
 
   function handleRegister() {
-    if (props.isRegisterPopup) {
+    if (isRegisterPopup) {
       return (
         <>
           <h2 className='popup__title'>Sign up</h2>
@@ -106,7 +183,10 @@ const PopupWithForm = (props) => {
               Email
             </label>
             <input
-              className='form__input'
+              className={`form__input ${
+                disableInputs ? 'form__input_disabled' : ''
+              }`}
+              disabled={disableInputs ? true : false}
               type='email'
               id='register-email'
               ref={emailRef}
@@ -123,7 +203,10 @@ const PopupWithForm = (props) => {
               Password
             </label>
             <input
-              className='form__input'
+              className={`form__input ${
+                disableInputs ? 'form__input_disabled' : ''
+              }`}
+              disabled={disableInputs ? true : false}
               type='password'
               id='register-password'
               ref={passwordRef}
@@ -140,7 +223,10 @@ const PopupWithForm = (props) => {
               Username
             </label>
             <input
-              className='form__input'
+              className={`form__input ${
+                disableInputs ? 'form__input_disabled' : ''
+              }`}
+              disabled={disableInputs ? true : false}
               type='text'
               id='register-username'
               ref={nameRef}
@@ -157,7 +243,7 @@ const PopupWithForm = (props) => {
               className={`popup__submit
               ${!errors ? 'popup__submit_active' : ''}`}
             >
-              {props.isRegisterPopup ? 'Sign up' : 'Sign in'}
+              {isRegisterPopup ? 'Sign up' : 'Sign in'}
             </button>
           </form>
 
@@ -185,7 +271,10 @@ const PopupWithForm = (props) => {
               Email
             </label>
             <input
-              className='form__input'
+              className={`form__input ${
+                disableInputs ? 'form__input_disabled' : ''
+              }`}
+              disabled={disableInputs ? true : false}
               type='email'
               id='register-email'
               ref={emailRef}
@@ -202,7 +291,10 @@ const PopupWithForm = (props) => {
               Password
             </label>
             <input
-              className='form__input'
+              className={`form__input ${
+                disableInputs ? 'form__input_disabled' : ''
+              }`}
+              disabled={disableInputs ? true : false}
               type='password'
               id='register-password'
               ref={passwordRef}
@@ -215,12 +307,22 @@ const PopupWithForm = (props) => {
               ''
             )}
 
+            {signinFailed ? (
+              <span className='form__error'>
+                {badRequest
+                  ? 'Invalid email or password'
+                  : 'Something went wrong, please try again'}
+              </span>
+            ) : (
+              ''
+            )}
+
             <button
               type='submit'
               className={`popup__submit
               ${!errors ? 'popup__submit_active' : ''}`}
             >
-              {props.isRegisterPopup ? 'Sign up' : 'Sign in'}
+              {isRegisterPopup ? 'Sign up' : 'Sign in'}
             </button>
           </form>
 
@@ -238,7 +340,7 @@ const PopupWithForm = (props) => {
     }
   }
 
-  return <>{props.isFormPopupOpen ? handleRegister() : ''}</>;
+  return <>{isFormPopupOpen ? handleRegister() : ''}</>;
 };
 
 export default PopupWithForm;

@@ -8,6 +8,7 @@ http://lkovacs-news.students.nomoreparties.site/
 The "New Explorer API" has authorization and registration handled by the back-end server and handles articles and users. 
 
 ### Server
+- Back-end Repo: https://github.com/lindakovacs/news-explorer-api
 - Api hosted on AWS Cloud
 - Server IP: 3.142.148.60
 - Back-end/Api: http://lkovacs-news.students.nomoreparties.site/

@@ -10,7 +10,7 @@ function Footer() {
     <footer className='footer'>
       {/* <div className='footer__container'> */}
         <p className='footer__copyright'>
-          © {new Date().getFullYear()} Linda Kovacs | New API
+          © {new Date().getFullYear()} Linda Kovacs | News API
         </p>
         <div className='footer__content-container'>
           <ul className='footer__content footer__links'>

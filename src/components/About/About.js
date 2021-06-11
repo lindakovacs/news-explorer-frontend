@@ -18,7 +18,7 @@ function About() {
             Accenture.
           </p>
           <p className='about__text'>
-            This is my final project in the 10-month Full Stack Developer
+            This is my final project in the Full Stack Developer
             Bootcamp at Practicum by Yandex, started in February 2020. During my
             learning journey I helped other students with questions related to
             course/sprints assignments and projects. The project's Frontend uses
